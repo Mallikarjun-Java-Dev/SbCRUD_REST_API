@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.Demo.dao.EmployeeDao;
 import com.Demo.dto.Employee;
+import com.Demo.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
 
 	@Autowired
 	EmployeeDao employeeDao;
+	
+	@Autowired
+	EmployeeRepository employeeRepository;
 	
 	public String insertData(Employee employee) {
 		return employeeDao.insertData(employee);
@@ -23,13 +27,20 @@ public class EmployeeService {
 	public Object fetchById(int id) {
 	      return employeeDao.fetchById(id);
 	      }
-	
+
 	public List<Employee> findAllemp(){
 		return employeeDao.findALLemp();
 		
 	}
-	public void deleteById(int id) {
-		  employeeDao.deleteById(id);
+	
+//	public void deleteById(int id) {
+//		  employeeDao.deleteById(id);
+//	}
+	
+	public String DeleteById(int id) {
+		employeeDao.fetchById(id);
+		employeeRepository.deleteById(id);
+		return "Data Deleted Successfully";
 	}
 	
 	public String deleteAll() {

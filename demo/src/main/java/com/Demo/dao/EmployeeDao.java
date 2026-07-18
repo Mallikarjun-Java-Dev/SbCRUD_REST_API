@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.Demo.dto.Employee;
+import com.Demo.exception.ResourceNotFoundException;
 import com.Demo.repository.EmployeeRepository;
 
 @Repository
@@ -22,14 +23,22 @@ public class EmployeeDao {
 		return "Data inserted";
 	}
 
-	public Object fetchById(int id) {
-		Optional<Employee> oe=employeeRepository.findById(id);
-	       if(oe.isPresent()) {
-      return oe.get();	    	   
-	       }
-	       else
-		return "no data found with id";
+//	public Object fetchById(int id) {
+//		Optional<Employee> oe=employeeRepository.findById(id);
+//	       if(oe.isPresent()) {
+//      return oe.get();	    	   
+//	       }
+//	       else
+//		return "no data found with id";
+//	}
+	//for exception handling
+	public Employee fetchById(int id) {
+		return employeeRepository.findById(id)
+				.orElseThrow(()->
+				new ResourceNotFoundException("Somthing Went Wrong"));
+				
 	}
+	
 
 	public List<Employee> findALLemp() {
 		return employeeRepository.findAll();
